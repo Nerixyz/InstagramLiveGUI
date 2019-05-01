@@ -1,0 +1,73 @@
+<UserControl 
+             x:Class="InstaStream.Views.LoginView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:InstaStream.Views"
+             xmlns:vm="clr-namespace:InstaStream.ViewModels"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:xaml="clr-namespace:XamlHelpers"
+             xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Medium"
+             TextElement.FontSize="14"
+
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <md:DialogHost Identifier="ErrorDialog">
+        <md:DialogHost.DialogContentTemplate>
+            <DataTemplate DataType="vm:ErrorMessageBox">
+                <StackPanel>
+                    <TextBlock Text="{Binding Message}" Margin="10"/>
+                    <Button Command="{x:Static md:DialogHost.CloseDialogCommand}" Content="OK" Margin="10"/>
+                </StackPanel>
+            </DataTemplate>
+        </md:DialogHost.DialogContentTemplate>
+        
+        <md:DialogHost Identifier="LoginDialog">
+            <md:DialogHost.DialogContentTemplate>
+                <DataTemplate DataType="vm:CodeDialogViewModel">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Message}" Margin="10" />
+                        <TextBox md:HintAssist.Hint="Code" Text="{Binding Code}" Margin="10"/>
+                        <Button Command="{x:Static md:DialogHost.CloseDialogCommand}" Content="Submit" Margin="10"/>
+                    </StackPanel>
+                </DataTemplate>
+            </md:DialogHost.DialogContentTemplate>
+
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="5" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="5" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Margin="10" FontSize="24" Text="Login" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" />
+
+                <TextBox MinWidth="200" Text="{Binding Username}" HorizontalAlignment="Center" Grid.Row="2"
+                         Grid.Column="1"
+                         md:HintAssist.Hint="Name" Margin="10" />
+                <PasswordBox MinWidth="200" xaml:Secure.Password="{Binding Password}" HorizontalAlignment="Center"
+                             Grid.Row="3" Grid.Column="1" md:HintAssist.Hint="Password" Margin="10" />
+                <Button x:Name="Login" Content="Login" Width="100" HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Grid.Row="4" Grid.Column="1" />
+            </Grid>
+        </md:DialogHost>
+    </md:DialogHost>
+</UserControl>

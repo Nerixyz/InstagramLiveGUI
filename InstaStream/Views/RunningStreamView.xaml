@@ -1,0 +1,70 @@
+<UserControl x:Class="InstaStream.Views.RunningStreamView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:InstaStream.Views"
+             xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+             xmlns:helpers="clr-namespace:XamlHelpers"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:InstaStream.ViewModels"
+             xmlns:models="clr-namespace:InstaStream.Models"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <dragablz:TabablzControl x:Name="Tabs">
+        <TabItem Header="CHAT">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <helpers:ScrollingListBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Comments}"
+                                          Style="{StaticResource MaterialDesignListBox}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="models:StreamComment">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0, 0, 5, 0" FontWeight="Bold" Text="{Binding User}" />
+                                <TextBlock FontWeight="Normal" Text="{Binding Message}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </helpers:ScrollingListBox>
+                <TextBox Text="{Binding ChatMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="0" Margin="5">
+                    <i:Interaction.Triggers>
+                        <helpers:InputBindingTrigger>
+                            <helpers:InputBindingTrigger.InputBinding>
+                                <KeyBinding Key="Enter" />
+                            </helpers:InputBindingTrigger.InputBinding>
+                            <cal:ActionMessage MethodName="SendChat" />
+                        </helpers:InputBindingTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+                <Button x:Name="SendChat" Grid.Row="1" Grid.Column="1" Width="100">
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="Send" Width="15" Height="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Send" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5, 0, 5, 0"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </TabItem>
+        <TabItem Header="VIEWERS">
+            <ListBox ItemsSource="{Binding Viewers}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="models:StreamViewer">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="0, 0, 5, 0" FontWeight="Bold" Text="{Binding User}" />
+                            <TextBlock FontWeight="Normal" Text="{Binding WatchTime}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </TabItem>
+    </dragablz:TabablzControl>
+</UserControl>
